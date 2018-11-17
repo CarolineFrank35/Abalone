@@ -1,0 +1,16 @@
+- name: Setup
+  tag: ^(master)
+  service: testing
+  command: wget https://oss.sonatype.org/service/local/repositories/releases/content/com/codacy/codacy-coverage-reporter/4.0.0/codacy-coverage-reporter-4.0.0-assembly.jar
+- name: Unit_Tests
+  tag: ^(master|develop|merge)
+  service: testing
+  command: mvn clean test jacoco:report
+- name: codacy
+  tag: ^(master)
+  service: testing
+  command: java -jar codacy-coverage-reporter-4.0.0-assembly.jar report -l Java -r ./target/site/jacoco/jacoco.xml
+- name: postcommit-trigger
+  tag: ^(master|develop)
+  service: testing
+  command: curl https://api.codacy.com/events/push/cbb5e9e86d1344e8917a373cb748b284

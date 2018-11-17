@@ -1,0 +1,7 @@
+testing:
+        image: maven:3-jdk-8
+        volumes:
+                - ./:/usr/src/mymaven
+        working_dir: /usr/src/mymaven
+        environment:
+                - CODACY_PROJECT_TOKEN=8024793c93c04f75ba2483a0506e5358
